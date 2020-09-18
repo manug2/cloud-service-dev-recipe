@@ -1,0 +1,1 @@
+# cloud-service-dev-recipe
