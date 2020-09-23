@@ -37,3 +37,42 @@ spec:
           limits:
             memory: "256Mi"
             cpu: "500m"
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: calc-service-deploy
+  labels:
+    app: calc-service-app
+    test: test
+  annotations:
+    fluxcd.io/tag.example-app: semver:~1.0
+    fluxcd.io/automated: 'true'
+spec:
+  selector:
+    matchLabels:
+      app: calc-service-app
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: calc-service-app
+    spec:
+      containers:
+      - name: calc-service-app
+        image: manug2018/calc-service:1.0.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5000
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "50m"
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
