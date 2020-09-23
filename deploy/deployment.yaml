@@ -68,7 +68,7 @@ spec:
         image: manug2018/calc-service:1.0.0
         imagePullPolicy: Always
         ports:
-        - containerPort: 5000
+        - containerPort: 6000
         resources:
           requests:
             memory: "64Mi"

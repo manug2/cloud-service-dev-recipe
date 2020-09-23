@@ -28,4 +28,4 @@ spec:
     - protocol: TCP
       name: http
       port: 80
-      targetPort: 5000
+      targetPort: 6000
