@@ -21,19 +21,11 @@ pipeline {
             }
         }
 
-        stage('git clone') {
-            steps{
-                sh(script: """
-                    git clone https://github.com/manug2/cloud-service-dev-recipe.git
-                """, returnStdout: true) 
-            }
-        }
-
         stage('python UI docker build') {
             steps{
                 sh script: '''
                 #!/bin/bash
-                cd $WORKSPACE/cloud-service-dev-recipe/python
+                cd ./python
                 docker build . --network host -t manug2018/python:${BUILD_NUMBER}
                 '''
             }
@@ -62,7 +54,7 @@ pipeline {
                 ){
                   sh script: '''
                   #!/bin/bash
-                  cd $WORKSPACE/cloud-service-dev-recipe/calc-service
+                  cd ./calc-service
                   mvn clean install
                   '''
                 }
@@ -73,7 +65,7 @@ pipeline {
             steps{
                 sh script: '''
                 #!/bin/bash
-                cd $WORKSPACE/cloud-service-dev-recipe/calc-service
+                cd ./calc-service
                 docker build . --network host -t manug2018/calc-service:${BUILD_NUMBER}
                 '''
             }
@@ -90,16 +82,8 @@ pipeline {
             steps{
                 sh script: '''
                 #!/bin/bash
-                cd $WORKSPACE/cloud-service-dev-recipe/
-                #get kubectl for this demo
-                curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
-                chmod +x ./kubectl
-                ./kubectl -n jenkins apply -f ./deploy/configmap.yaml
-                ./kubectl -n jenkins apply -f ./deploy/secret.yaml
-                ./kubectl -n jenkins apply -f ./deploy/service-ui.yaml
-                cat ./deploy/deployment-ui.yaml | sed s/1.0.0/${BUILD_NUMBER}/g | ./kubectl apply -f -
-                ./kubectl -n jenkins apply -f ./deploy/service-calc.yaml
-                cat ./deploy/deployment-calc.yaml | sed s/1.0.0/${BUILD_NUMBER}/g | ./kubectl apply -f -
+                chmod +x ./deploy/*.sh
+                ./deploy/startServiceAndUI.sh
                 '''
         }
     }
