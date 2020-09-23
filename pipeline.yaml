@@ -44,6 +44,35 @@ pipeline {
             }
         }
 
+        stage('build') {
+            steps{
+                withMaven {
+                  sh script: '''
+                  #!/bin/bash
+                  cd $WORKSPACE/cloud-service-dev-recipe/calc-service
+                  mvn clean install
+                  '''
+                }
+            }
+        }
+
+        stage('docker build') {
+            steps{
+                sh script: '''
+                #!/bin/bash
+                cd $WORKSPACE/cloud-service-dev-recipe/calc-service
+                docker build . --network host -t manug2018/calc-service:${BUILD_NUMBER}
+                '''
+            }
+        }
+
+        stage('docker push') {
+            steps{
+                sh(script: """
+                    docker push manug2018/calc-service:${BUILD_NUMBER}
+                """)
+            }
+        }
         stage('deploy') {
             steps{
                 sh script: '''
@@ -54,8 +83,8 @@ pipeline {
                 chmod +x ./kubectl
                 ./kubectl -n jenkins apply -f ./deploy/configmap.yaml
                 ./kubectl -n jenkins apply -f ./deploy/secret.yaml
-                cat ./deploy/deployment.yaml | sed s/1.0.0/${BUILD_NUMBER}/g | ./kubectl apply -f -
                 ./kubectl -n jenkins apply -f ./deploy/service.yaml
+                cat ./deploy/deployment.yaml | sed s/1.0.0/${BUILD_NUMBER}/g | ./kubectl apply -f -
                 '''
         }
     }
