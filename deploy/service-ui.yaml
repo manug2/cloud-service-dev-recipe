@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ui-service
+  labels:
+    app: ui-app
+spec:
+  type: LoadBalancer
+  selector:
+    app: ui-app
+  ports:
+    - protocol: TCP
+      name: http
+      port: 80
+      targetPort: 5000
