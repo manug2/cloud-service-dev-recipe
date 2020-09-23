@@ -27,6 +27,9 @@ spec:
       containers:
       - name: ui-app
         image: manug2018/python:1.0.0
+        env:
+        - name: CALC_SERVICE_IP
+          value: CALC_SERVICE_IP_VALUE
         imagePullPolicy: Always
         ports:
         - containerPort: 5000
