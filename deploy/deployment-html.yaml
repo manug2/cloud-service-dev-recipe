@@ -29,7 +29,7 @@ spec:
         image: manug2018/html-ui:1.0.0
         imagePullPolicy: Always
         ports:
-        - containerPort: 7000
+        - containerPort: 80
         resources:
           requests:
             memory: "64Mi"

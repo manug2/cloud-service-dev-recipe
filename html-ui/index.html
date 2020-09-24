@@ -7,7 +7,7 @@
      
       function callCalcService(){
 
-		document.getElementById("result").value = "";
+		    document.getElementById("result").innerHTML = "";
         var math = document.getElementById("math").value;
         var first = document.getElementById("first").value;
       	var second = document.getElementById("second").value;
@@ -28,9 +28,9 @@
 		  });
       }
      
-      function ShowResult(calculatedNumber){
+      function showResult(calculatedNumber){
         console.log(calculatedNumber);
-		document.getElementById("result").value = calculatedNumber;
+		    document.getElementById("result").innerHTML = calculatedNumber;
       }
 
       function handleException(request, message, error) {
