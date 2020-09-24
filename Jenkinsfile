@@ -1,3 +1,5 @@
+calc_service_url = 'initial_value'
+
 pipeline {
     agent { 
         kubernetes{
@@ -81,6 +83,7 @@ pipeline {
 
         stage('deploy service') {
             steps{
+                echo "${calc_service_url}" // prints 'initial_value'
                 sh script: '''
                 #!/bin/bash
                 chmod +x ./deploy/*.sh
@@ -88,6 +91,10 @@ pipeline {
                 ./deploy/startCalcService.sh
                 ./deploy/startPythonUI.sh
                 '''
+                script {
+                    calc_service_url = readFile('calc_service_url.txt').trim()
+                }
+                echo "${calc_service_url}" // prints 'aws url'
             }
         }
 
@@ -122,15 +129,16 @@ pipeline {
 
         stage('regression testpack') {
             steps{
+                echo "${calc_service_url}" // prints 'aws url'
                 withMaven(
                     maven: 'Maven_3.6.3', // (1)
                     mavenLocalRepo: '.repository', // (2)
                 ){
                   sh script: '''
                   #!/bin/bash
-                  java -jar calc-service/target/calc-service*.jar
+                  aws_url=`cat calc_service_url.txt`
                   cd ./regression-tests
-                  mvn clean verify -Dtest.calc.service.url=http://localhost:8500
+                  mvn clean verify -Dtest.calc.service.url="http://${aws_url}"
                   '''
                 }
             }
