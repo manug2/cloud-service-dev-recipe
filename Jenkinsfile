@@ -96,7 +96,8 @@ pipeline {
                 sh script: '''
                 #!/bin/bash
                 chmod +x ./html-ui/*.sh
-                ./html-ui/processHtmlFile.sh               
+                ./html-ui/processHtmlFile.sh
+                cd ./html-ui
                 docker build . --network host -t manug2018/html-ui:${BUILD_NUMBER}
                 '''
             }
