@@ -83,7 +83,9 @@ pipeline {
                 sh script: '''
                 #!/bin/bash
                 chmod +x ./deploy/*.sh
-                ./deploy/startServiceAndUI.sh
+                ./deploy/installKubeCtl.sh
+                ./deploy/startCalcService.sh
+                ./deploy/startPythonUI.sh
                 '''
         }
     }
