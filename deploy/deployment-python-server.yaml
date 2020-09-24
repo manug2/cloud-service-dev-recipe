@@ -2,9 +2,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ui-deploy
+  name: python-deploy
   labels:
-    app: ui-app
+    app: python-app
     test: test
   annotations:
     fluxcd.io/tag.example-app: semver:~1.0
@@ -12,7 +12,7 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: ui-app
+      app: python-app
   replicas: 2
   strategy:
     type: RollingUpdate
@@ -22,10 +22,10 @@ spec:
   template:
     metadata:
       labels:
-        app: ui-app
+        app: python-app
     spec:
       containers:
-      - name: ui-app
+      - name: python-app
         image: manug2018/python:1.0.0
         env:
         - name: CALC_SERVICE_IP

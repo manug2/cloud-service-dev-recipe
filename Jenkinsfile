@@ -21,7 +21,7 @@ pipeline {
             }
         }
 
-        stage('python UI docker build') {
+        stage('python server docker build') {
             steps{
                 sh script: '''
                 #!/bin/bash
@@ -31,7 +31,7 @@ pipeline {
             }
         }
 
-        stage('python UI docker push') {
+        stage('python server docker push') {
             steps{
                 sh(script: """
                     docker push manug2018/python:${BUILD_NUMBER}
@@ -87,7 +87,7 @@ pipeline {
                 ./deploy/installKubeCtl.sh
                 ./deploy/startCalcService.sh
                 #starting calc service script also stores calc service url in file calc_service_url.txt
-                ./deploy/startPythonUI.sh
+                ./deploy/startPythonServer.sh
                 '''
             }
         }
