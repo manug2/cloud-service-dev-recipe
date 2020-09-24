@@ -119,5 +119,22 @@ pipeline {
                 '''
             }
         }
+
+        stage('regression testpack') {
+            steps{
+                withMaven(
+                    maven: 'Maven_3.6.3', // (1)
+                    mavenLocalRepo: '.repository', // (2)
+                ){
+                  sh script: '''
+                  #!/bin/bash
+                  java -jar calc-service/target/calc-service*.jar
+                  cd ./regression-tests
+                  mvn clean verify -Dtest.calc.service.url=http://localhost:8500
+                  '''
+                }
+            }
+        }
+
     }
 }

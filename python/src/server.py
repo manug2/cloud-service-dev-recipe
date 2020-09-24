@@ -4,4 +4,4 @@ app = Flask(__name__)
 
 @app.route("/")
 def hello():
-    return "Hello World!!  Calc Service is running at: " + os.getenv('CALC_SERVICE_IP')
+    return "Hello World!!  Calc Service is running at: http://" + os.getenv('CALC_SERVICE_IP')
