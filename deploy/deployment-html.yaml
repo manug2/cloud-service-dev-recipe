@@ -26,7 +26,7 @@ spec:
     spec:
       containers:
       - name: html-app
-        image: manug2018/python:1.0.0
+        image: manug2018/html-ui:1.0.0
         imagePullPolicy: Always
         ports:
         - containerPort: 7000
