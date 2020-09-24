@@ -26,8 +26,18 @@ public class MyHttpServerStarter {
     private static void handleRequest(HttpExchange exchange) throws IOException {
         final String urlPath = exchange.getRequestURI().getPath();
         String[] pathParts = urlPath.split("/");
+        exchange.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
+
+        if (exchange.getRequestMethod().equalsIgnoreCase("OPTIONS")) {
+            exchange.getResponseHeaders().add("Access-Control-Allow-Methods", "GET, OPTIONS");
+            exchange.getResponseHeaders().add("Access-Control-Allow-Headers", "Content-Type,Authorization");
+            exchange.sendResponseHeaders(204, -1);
+            return;
+        }
+
         final String response = evaluateResponse(pathParts);
         exchange.sendResponseHeaders(200, response.getBytes().length);//response code and length
+
         OutputStream os = exchange.getResponseBody();
         os.write(response.getBytes());
         os.close();

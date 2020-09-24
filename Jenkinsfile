@@ -78,7 +78,8 @@ pipeline {
                 """)
             }
         }
-        stage('deploy') {
+
+        stage('deploy service') {
             steps{
                 sh script: '''
                 #!/bin/bash
@@ -87,7 +88,36 @@ pipeline {
                 ./deploy/startCalcService.sh
                 ./deploy/startPythonUI.sh
                 '''
+            }
+        }
+
+        stage('html-ui docker build') {
+            steps{
+                sh script: '''
+                #!/bin/bash
+                chmod +x ./html-ui/*.sh
+                ./html-ui/processHtmlFile.sh
+                cd ./html-ui
+                docker build . --network host -t manug2018/html-ui:${BUILD_NUMBER}
+                '''
+            }
+        }
+
+        stage('html-ui docker push') {
+            steps{
+                sh(script: """
+                    docker push manug2018/html-ui:${BUILD_NUMBER}
+                """)
+            }
+        }
+
+        stage('deploy html-ui') {
+            steps{
+                sh script: '''
+                #!/bin/bash
+                ./deploy/startHtml.sh
+                '''
+            }
         }
     }
-}
 }
