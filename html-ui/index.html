@@ -1,0 +1,79 @@
+<html>
+  <head>
+    <title>Lets Calculate!</title>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script language="JavaScript">
+     
+      function callCalcService(){
+
+		document.getElementById("result").value = "";
+        var math = document.getElementById("math").value;
+        var first = document.getElementById("first").value;
+      	var second = document.getElementById("second").value;
+
+          $.ajax({
+		    url: 'http://CALC_SERVICE_IP_VALUE/calculator/' + math + '/' + first + '/' + second,
+		    headers: {
+              'Content-Type': 'application/x-www-form-urlencoded'
+            },
+		    type: 'GET',
+		    dataType: 'text',
+		    success: function (calculatedNumber) {
+		      showResult(calculatedNumber);
+		    },
+		    error: function (request, message, error) {
+		      handleException(request, message, error);
+		    }
+		  });
+      }
+     
+      function ShowResult(calculatedNumber){
+        console.log(calculatedNumber);
+		document.getElementById("result").value = calculatedNumber;
+      }
+
+      function handleException(request, message, error) {
+        var msg = "";
+        msg += "Code: " + request.status + "\n";
+        msg += "Error Message: " + error + " " + message + "\n";
+        alert(msg);
+      }
+     
+     </script>
+  </head>
+
+  <body> 
+
+    <h2>Welcome to Calculator (build UI_BUILD_NUMBER)</h2>
+   
+    <br/>
+    <label>choose math:</label>
+
+    <select name="math" id="math">
+	  <option value="square">square</option>
+	  <option value="sqrt">square root</option>
+	  <option value="add">addition</option>
+	  <option value="multiply">mulitplication</option>
+    </select>
+
+    <br/>
+    <br/>
+    <label for="First">first number:</label>
+    <input type="number" id="first" name="first" value="10">
+
+    <label for="Second">second number:</label>
+    <input type="number" id="second" name="second">
+
+    <br/>
+    <br/>
+    <button type="button" onclick="callCalcService()">calculate</button>
+
+    <br/>
+    <br/>
+    <label >Result:</label>
+    <label id="result"></label>
+    
+  </body>
+
+</html>
