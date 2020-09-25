@@ -6,11 +6,11 @@
 
 2. Update kubeconfig
 
-    aws eks --region us-west-2 update-kubeconfig --name cluster_name
+        aws eks --region <region> update-kubeconfig --name <cluster name>
     
 3. Test k8s configuration
 
-    kubectl get svc
+        kubectl get svc
     
 4. Create kubernets name space for our jenkins installation
 

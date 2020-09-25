@@ -24,6 +24,7 @@ Automation with a human touch
 ### Set up a Kubernetes cluster in AWS a.k.a. EKS ###
     * Install aws cli, eksctl, kubectl
         Refer to https://docs.aws.amazon.com/eks/latest/userguide/getting-started-console.html
+    * Create your Amazon EKS cluster IAM role & user
     * Configure AWS cli & Setup SSH keys
         Refer to https://github.com/manug2/cloud-service-dev-recipe/blob/master/1_create-key-pair_steps.md
     * Install new EKS cluster using 'eksctl' & configure
@@ -34,12 +35,12 @@ Refer to
 
     https://github.com/manug2/cloud-service-dev-recipe/blob/master/3_aws_add_persistent_storage.md
 
-FYI, my steps follow Marcel Demper's work
+FYI, my steps follow Marcel Dempers' work
 
     https://github.com/marcel-dempers/docker-development-youtube-series/tree/master/jenkins/amazon-eks/readme.md
 
 ### Set up Jenkins on our cluster ###
-    * Install Jenkins on k8s and setup Kubernetes plugin in its console 
+    * Install Jenkins on k8s and setup Kubernetes plugin in its console (Manage Jenkins)
     Refer to 
         https://github.com/manug2/cloud-service-dev-recipe/blob/master/4_aws_jenkins_deployment.md
     * Install Pipeline Maven Integration Plugin (Manage Jenkins -> Plugin Manager)
@@ -57,7 +58,9 @@ FYI, my steps follow Marcel Demper's work
         * Add Dockerfile
         * Add step for docker build
     * Commit to git
-    * Add Multibranch Pipeline (New Item)
+    * Add Multibranch Pipeline (New Item) 
+        * Input github repo link 
+        * Choose to build for All branches in Discover branches)
     * Watch Jenkins build (run on k8s ephemeral jenkins slave pods)
     * If something does not work, fix and commit until build is SUCCESS.
         

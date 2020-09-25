@@ -1,14 +1,26 @@
 ## Configure AWS cli & Setup SSH keys ##
 
+Login to aws IAM
+
+    https://console.aws.amazon.com
+
+Create new role for "EKS - Cluster" under EKS
+    
+    https://docs.aws.amazon.com/eks/latest/userguide/getting-started-console.html#role-create
+
+Create new admin user with group Administrator
+    
+    https://console.aws.amazon.com/iam/home#/users
+
 ### Configure AWS CLI ###
 
-Login to aws to find Access key ID & Secret access key
-
-Input ***us-east-2*** AWS region of ur k8s cluster when prompted
-
-Input *json* when prompted for "Default output format
+Find Access key ID & Secret access key for the new user created above
 
         aws configure
+
+Leave default (us-east2) AWS region of ur k8s cluster when prompted
+
+Leave default (json) when prompted for "Default output format"
         
 ### Setup SSH keys ###
 1. Choose a key file name and replace in command below (Using Git Bash)
